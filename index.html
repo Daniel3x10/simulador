@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Simulador biofísico y estadístico de las nueve unidades experimentales del tratamiento de relave Calaverita-Cu con compost inoculado con Acidithiobacillus ferrooxidans.">
+<meta name="theme-color" content="#050F22">
+<title>SIMULADOR · Calaverita-Cu: Mitigando el relave minero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@1,8..60,400;1,8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="app-window">
+
+  <!-- ===================== Barra Superior (Top Nav) ===================== -->
+  <header class="top-header" role="banner">
+    <div class="top-nav wrap">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span class="brand-name">UNSA · SIMULADOR Calaverita-Cu</span>
+      </div>
+
+      <nav class="tabs" aria-label="Escenarios">
+        <a href="#real" data-tab="real" aria-label="Escenario experimental con pH 7.99"><span class="tab-num">01</span>Escenario experimental <span class="tab-sub">pH 7,99</span></a>
+        <a href="#funciona" data-tab="funciona" aria-label="Escenario con acondicionamiento ácido"><span class="tab-num">02</span>Acondicionamiento ácido</a>
+        <a href="#situaciones" data-tab="situaciones" aria-label="Análisis comparativo de escenarios"><span class="tab-num">03</span>Análisis de escenarios</a>
+        <a href="#method-title" aria-label="Descripción del modelo metodológico"><span class="tab-num">04</span>Modelo</a>
+      </nav>
+
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button class="btn-header-data" id="btn-top-modal" type="button" aria-label="Abrir formulario para ingresar mis propios datos">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <span>Cargar mis datos</span>
+        </button>
+
+        <button class="btn-start" id="btn-top-start" type="button" aria-label="Iniciar o pausar simulación">
+          <span class="btn-circle-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </span>
+          <span>Iniciar simulación</span>
+        </button>
+
+        <button class="btn-fullscreen" id="btn-fullscreen" type="button" aria-label="Alternar pantalla completa" title="Alternar pantalla completa (F11)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== Hero Section Microscópica ===================== -->
+  <section class="hero">
+    <div class="hero-glow-bg"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-content">
+        <div class="hero-overline">
+          <span class="tag-thesis">SIMULADOR</span>
+          <span>Tesis de apoyo al Capítulo IV · UNSA</span>
+        </div>
+        <h1>SIMULADOR: Mitigando el relave minero <span class="hero-serif">con compost y bacteria viva</span></h1>
+        <p class="hero-desc">Simula cómo responden las nueve unidades experimentales: relave solo (T0), con compost (T1) y con compost inoculado con <i>Acidithiobacillus ferrooxidans</i> (T2) — día a día durante 56 días de incubación.</p>
+
+        <div class="hero-actions">
+          <button class="btn-primary-pill" id="hero-enter" type="button" aria-label="Entrar a la simulación">
+            <span class="btn-circle-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+            <span>Entrar a la simulación</span>
+          </button>
+
+          <button class="btn-secondary-pill" id="hero-custom-data" type="button" aria-label="Cargar mis propios datos de ensayo">
+            <span class="btn-circle-icon-sec">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </span>
+            <span>Cargar mis propios datos</span>
+          </button>
+        </div>
+
+        <div class="hero-mini-cards">
+          <div class="hero-mini-card">
+            <div class="mini-icon-bio">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
+            </div>
+            <div>
+              <span class="mini-label">Biorremediación minera</span>
+              <p class="mini-val">Calaverita-Cu · Arequipa</p>
+            </div>
+          </div>
+
+          <div class="hero-mini-card">
+            <div class="gauge-ring-mini">
+              <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path class="circle-fill" id="hero-progress-ring" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              </svg>
+              <span class="ring-text" id="hero-ring-val">0%</span>
+            </div>
+            <div>
+              <span class="mini-label">Mesa de incubación</span>
+              <p class="mini-val"><span id="hero-day-stat">Día 0</span> de 56 · 9 recipientes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ilustración interactiva microscópica (bacilos y relave) -->
+      <div class="hero-microscope-stage">
+        <div class="micro-tags">
+          <span class="micro-tag"><i class="dot-ph"></i> pH: 7,99</span>
+          <span class="micro-tag"><i class="dot-ce"></i> CE: 2200 µS/cm</span>
+          <span class="micro-tag"><i class="dot-n"></i> Bacterias: 10⁸ /mL</span>
+        </div>
+        <canvas id="hero-canvas"></canvas>
+        <div class="micro-info-card">
+          <div class="micro-info-head">
+            <span>Microscopio · T2</span>
+            <span>🔬</span>
+          </div>
+          <p>Bacilos sobre partículas de relave a pH 7,99: población en declive.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+  <!-- ===================== Pestañas 1 y 2: Vista de Simulación ===================== -->
+  <section class="view" id="v-sim" aria-label="Entorno de simulación de tratamientos">
+
+    <!-- Sección de Resultados del Día (se muestra en las pestañas de simulación) -->
+    <div class="results-section" aria-label="Resultados por tratamiento">
+      <div class="wrap">
+        <div class="res-head">
+          <div>
+            <h2>Resultados del <span class="serif-accent" id="res-day-title">día 0</span></h2>
+            <p class="caption">Promedio de tres réplicas por tratamiento · relave a pH 7,99 a 20 °C</p>
+          </div>
+          <div class="day-pills-selector" id="day-pills" role="toolbar" aria-label="Saltar al día de muestreo">
+            <button type="button" class="day-pill-btn active" data-d="0">Día 0</button>
+            <button type="button" class="day-pill-btn" data-d="7">Día 7</button>
+            <button type="button" class="day-pill-btn" data-d="14">Día 14</button>
+            <button type="button" class="day-pill-btn" data-d="28">Día 28</button>
+            <button type="button" class="day-pill-btn" data-d="42">Día 42</button>
+            <button type="button" class="day-pill-btn" data-d="56">Día 56</button>
+          </div>
+        </div>
+
+        <!-- Tarjetas en vivo T0, T1, T2 (Generadas y actualizadas por timeline.js) -->
+        <div class="live" id="live" aria-label="Estado actual de cada tratamiento"></div>
+      </div>
+    </div>
+
+    <!-- Panel lateral de parámetros y controles -->
+    <aside class="controls" aria-label="Parámetros configurables de la simulación">
+      <button class="btn-sidebar-modal" id="btn-sidebar-modal" type="button" aria-label="Abrir ficha técnica de datos personalizados">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span>Ficha de datos personalizados</span>
+      </button>
+
+      <details class="group group-accent" id="acid-group" hidden open>
+        <summary>Acondicionamiento ácido</summary>
+        <div class="group-body">
+          <p class="note">Se aplica por igual a T0, T1 y T2.</p>
+          <div class="field">
+            <label for="acid">Dosis de ácido <output id="o-acid"></output></label>
+            <input type="range" id="acid" min="0" max="400" step="1" value="0" aria-label="Dosis de ácido en mmol H⁺ por kg">
+          </div>
+          <div class="field">
+            <label for="beta">Capacidad amortiguadora (supuesta) <output id="o-beta"></output></label>
+            <input type="range" id="beta" min="5" max="300" step="5" value="50" aria-label="Capacidad amortiguadora del relave">
+          </div>
+          <p class="note">Cantidad de ácido necesaria para reducir el pH del relave en una unidad. Parámetro supuesto; debe determinarse mediante una curva de titulación.</p>
+          <button class="btn-action" id="find" type="button" aria-label="Calcular acondicionamiento mínimo para viabilidad bacteriana">Calcular acondicionamiento mínimo</button>
+          <p class="note">Determina la menor dosis de ácido con la que la población de T2 supera 10⁵ células/g al día 56 y la diferencia T2 − T1 alcanza una potencia estadística de al menos 80 %.</p>
+        </div>
+      </details>
+
+      <details class="group" id="prop-group" open>
+        <summary>Proporciones de las unidades</summary>
+        <div class="group-body">
+          <p class="note">T1 y T2 reciben siempre la misma proporción de compost, de modo que difieran únicamente en la inoculación. El diseño se mantiene en nueve unidades experimentales.</p>
+          <div class="field">
+            <label for="comp">Compost respecto al relave <output id="o-comp"></output></label>
+            <input type="range" id="comp" min="2" max="100" step="1" value="10" aria-label="Porcentaje de compost respecto al relave">
+          </div>
+          <div class="field">
+            <label for="mrec">Relave por unidad <output id="o-mrec"></output></label>
+            <input type="range" id="mrec" min="100" max="550" step="25" value="500" aria-label="Masa de relave por unidad experimental en gramos">
+          </div>
+          <div class="field">
+            <label for="dose">Dosis de cultivo en el compost (T2) <output id="o-dose"></output></label>
+            <input type="range" id="dose" min="20" max="300" step="10" value="100" aria-label="Dosis de inóculo en mL por kg de compost">
+          </div>
+          <div class="field">
+            <label for="disp">Relave disponible <output id="o-disp"></output></label>
+            <input type="range" id="disp" min="2" max="20" step="0.5" value="5" aria-label="Masa total de relave disponible en kg">
+          </div>
+          <div class="field">
+            <label for="compd">Compost disponible <output id="o-compd"></output></label>
+            <input type="range" id="compd" min="1" max="30" step="0.5" value="10" aria-label="Masa total de compost disponible en kg">
+          </div>
+          <p class="note">El compost disponible es un valor supuesto; debe reemplazarse por la masa pesada de la compostera.</p>
+          <button class="btn-action" id="findprop" type="button" aria-label="Optimizar proporciones de compost y cultivo">Optimizar proporciones</button>
+          <p class="note">Evalúa combinaciones de dosis de compost, dosis de cultivo y masa de relave por recipiente, y selecciona la que satisface las restricciones de material y cumple el mayor número de objetivos.</p>
+        </div>
+      </details>
+
+      <details class="group" open>
+        <summary>Relave</summary>
+        <div class="group-body">
+          <div class="field">
+            <label for="phr">pH del relave (medido, tabla 23) <output id="o-phr"></output></label>
+            <input type="range" id="phr" min="3" max="9" step="0.01" value="7.99" aria-label="pH inicial del relave">
+          </div>
+          <div class="field">
+            <label for="cer">CE del relave <output id="o-cer"></output></label>
+            <input type="range" id="cer" min="500" max="4000" step="10" value="2200" aria-label="Conductividad eléctrica inicial del relave en microSiemens por centímetro">
+          </div>
+        </div>
+      </details>
+
+      <details class="group">
+        <summary>Compost</summary>
+        <div class="group-body">
+          <div class="field">
+            <label for="phc1">pH del compost sin inocular (T1) <output id="o-phc1"></output></label>
+            <input type="range" id="phc1" min="3" max="9" step="0.05" value="7.2" aria-label="pH del compost no inoculado">
+          </div>
+          <div class="field">
+            <label for="phc2">pH del compost inoculado (T2) <output id="o-phc2"></output></label>
+            <input type="range" id="phc2" min="3" max="9" step="0.05" value="6.8" aria-label="pH del compost inoculado">
+          </div>
+          <div class="field">
+            <label for="cec1">CE del compost T1 <output id="o-cec1"></output></label>
+            <input type="range" id="cec1" min="1" max="8" step="0.1" value="3.5" aria-label="Conductividad eléctrica del compost T1">
+          </div>
+          <div class="field">
+            <label for="cec2">CE del compost T2 <output id="o-cec2"></output></label>
+            <input type="range" id="cec2" min="1" max="8" step="0.1" value="3.8" aria-label="Conductividad eléctrica del compost T2">
+          </div>
+        </div>
+      </details>
+
+      <details class="group" open>
+        <summary>Microorganismo (T2)</summary>
+        <div class="group-body">
+          <div class="field">
+            <label for="xc">Densidad del cultivo <output id="o-xc"></output></label>
+            <input type="range" id="xc" min="7" max="9.5" step="0.01" value="8.03" aria-label="Densidad bacteriana del inóculo en escala logarítmica">
+          </div>
+          <div class="field">
+            <label for="kd">Mortalidad a pH ≥ 6,5 <output id="o-kd"></output></label>
+            <input type="range" id="kd" min="0.05" max="1.5" step="0.05" value="0.5" aria-label="Tasa de mortalidad celular a pH neutro o alcalino">
+          </div>
+          <div class="field">
+            <label for="tt">Temperatura de incubación <output id="o-tt"></output></label>
+            <input type="range" id="tt" min="10" max="36" step="0.5" value="20" aria-label="Temperatura de incubación en grados Celsius">
+          </div>
+          <div class="field">
+            <label for="alpha">Acidificación biológica (α) <output id="o-alpha"></output></label>
+            <input type="range" id="alpha" min="0" max="0.1" step="0.005" value="0.03" aria-label="Tasa de acidificación biológica diaria">
+          </div>
+          <div class="field">
+            <label for="eps">Liberación de sales (ε) <output id="o-eps"></output></label>
+            <input type="range" id="eps" min="0" max="50" step="1" value="15" aria-label="Tasa diaria de liberación de sales">
+          </div>
+          <p class="note">α y ε son supuestos: representan la disminución diaria del pH y el aumento diario de la CE cuando la bacteria oxida a plena actividad el hierro y los sulfuros del relave (Fe 16,5 %; S 8,4 %).</p>
+        </div>
+      </details>
+
+      <details class="group">
+        <summary>Variabilidad entre réplicas</summary>
+        <div class="group-body">
+          <div class="field">
+            <label for="sdph">Desviación estándar del pH <output id="o-sdph"></output></label>
+            <input type="range" id="sdph" min="0.01" max="0.6" step="0.01" value="0.05" aria-label="Desviación estándar supuesta para el pH">
+          </div>
+          <div class="field">
+            <label for="cvce">Coeficiente de variación de la CE <output id="o-cvce"></output></label>
+            <input type="range" id="cvce" min="0.5" max="15" step="0.5" value="3" aria-label="Coeficiente de variación de la conductividad eléctrica">
+          </div>
+          <div class="field">
+            <label for="sdn">Desviación del recuento (log₁₀) <output id="o-sdn"></output></label>
+            <input type="range" id="sdn" min="0.05" max="1" step="0.05" value="0.3" aria-label="Desviación estándar del recuento microbiológico">
+          </div>
+          <button id="disp56" type="button" aria-label="Aplicar la dispersión observada de 0.56 unidades de pH">Aplicar dispersión observada (DE = 0,56)</button>
+        </div>
+      </details>
+
+      <input type="hidden" id="nrep" value="3"><output id="o-nrep" hidden></output>
+      <div class="controls-footer">
+        <button id="reroll" type="button" aria-label="Generar nueva realización aleatoria">Nueva simulación</button>
+        <button id="reset" type="button" aria-label="Restablecer parámetros a valores iniciales">Restablecer</button>
+      </div>
+    </aside>
+
+    <!-- Escenario de resultados y análisis dinámico -->
+    <div class="stage" role="region" aria-label="Resultados de la simulación">
+      <p class="banner" id="banner-real"><b>Escenario experimental.</b> Relave con el pH medido por las autoras (7,99; tabla 23) y diseño de la tabla 18: tres tratamientos con tres réplicas, dosis de compost de 10 % y 100 mL de cultivo por kilogramo de compost. Representa el comportamiento esperado del experimento tal como fue planteado en la metodología.</p>
+      <p class="banner banner-acid" id="banner-funciona" hidden><b>Escenario con acondicionamiento ácido.</b> Los tres tratamientos y el compost se acondicionan por igual con ácido sulfúrico y se incuban a 28 °C, con el fin de situar el sistema dentro del rango de crecimiento de <i>A. ferrooxidans</i> (pH 1,3–4,5). La opción «Calcular acondicionamiento mínimo» determina la menor dosis de ácido con la que la bacteria permanece activa y su efecto es demostrable. La capacidad amortiguadora y la acidificación biológica son parámetros supuestos.</p>
+
+      <!-- Indicadores clave (KPIs) -->
+      <div class="kpis" id="kpis" aria-live="polite" aria-label="Métricas de respuesta al día 56"></div>
+
+      <!-- Sección 1: Línea de tiempo -->
+      <section class="block" aria-labelledby="heading-timeline">
+        <div class="block-head">
+          <h2 id="heading-timeline">Evolución temporal del ensayo <span class="day-badge" id="tl-day">Día 0</span></h2>
+          <span class="caption">Valores esperados por tratamiento; marcadores en días de muestreo (tabla 20)</span>
+        </div>
+        <div class="playbar" role="toolbar" aria-label="Controles de reproducción temporal">
+          <button id="play" type="button" class="btn-primary" aria-label="Pausar o reanudar animación">Pausar</button>
+          <button id="prevd" type="button" title="Muestreo anterior" aria-label="Muestreo anterior">◀ Muestreo</button>
+          <input type="range" id="day" min="0" max="56" step="0.05" value="0" aria-label="Día de la incubación (de 0 a 56 días)">
+          <button id="nextd" type="button" title="Muestreo siguiente" aria-label="Muestreo siguiente">Muestreo ▶</button>
+          <select id="speed" aria-label="Velocidad de reproducción temporal"><option value="40">Lenta</option><option value="20" selected>Normal</option><option value="10">Rápida</option></select>
+          <output id="o-day" aria-live="polite"></output>
+        </div>
+        <div class="milestones" id="miles" role="group" aria-label="Hitos de muestreo programados"></div>
+        <div class="notice" id="narr" aria-live="polite"><h3>Descripción de la etapa actual</h3><div class="xb"></div></div>
+      </section>
+
+      <!-- Sección 2: Disposición de unidades experimentales -->
+      <section class="block" aria-labelledby="bench-title">
+        <div class="block-head">
+          <h2 id="bench-title">Disposición de las unidades experimentales</h2>
+          <span class="caption">Seleccione una unidad para resaltarla en las gráficas</span>
+        </div>
+        <div class="bench" id="bench" role="group" aria-label="Mesa experimental aleatorizada"></div>
+        <p class="note">El color de fondo representa el pH (petróleo: alcalino; cobre a óxido: ácido). Los puntos marrones representan el compost; los bacilos amarillos, células viables, y los grises, células en declive.</p>
+      </section>
+
+      <!-- Sección 3: Gráficas de respuesta físico-química y biológica -->
+      <div class="two-cols">
+        <section class="block" aria-labelledby="heading-c-ph">
+          <div class="block-head"><h3 id="heading-c-ph">pH por unidad experimental</h3></div>
+          <canvas class="plot" id="c-ph" aria-label="Gráfica de evolución del pH por unidad"></canvas>
+          <div class="legend" id="l-ph"></div>
+        </section>
+        <section class="block" aria-labelledby="heading-c-ce">
+          <div class="block-head"><h3 id="heading-c-ce">Conductividad eléctrica (µS/cm)</h3></div>
+          <canvas class="plot" id="c-ce" aria-label="Gráfica de evolución de la conductividad eléctrica"></canvas>
+          <div class="legend" id="l-ce"></div>
+        </section>
+      </div>
+
+      <div class="two-cols">
+        <section class="block" aria-labelledby="heading-c-n">
+          <div class="block-head"><h3 id="heading-c-n">Población viable de <i>A. ferrooxidans</i> en T2 (células/g)</h3></div>
+          <canvas class="plot" id="c-n" aria-label="Gráfica de población celular de A. ferrooxidans"></canvas>
+          <div class="legend" id="l-n"></div>
+        </section>
+        <div class="insight" id="xbox" role="region" aria-label="Interpretación científica de los resultados">
+          <h3>Interpretación de los resultados</h3>
+          <div class="xb" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <!-- Sección 4: Análisis Estadístico Proyectado -->
+      <section class="block" aria-labelledby="heading-stats">
+        <div class="block-head">
+          <h2 id="heading-stats">Análisis estadístico proyectado</h2>
+          <span class="caption">ANOVA de un factor, DCA; ecuación 12</span>
+        </div>
+        <div class="days" id="days" aria-label="Selección del día para ANOVA"></div>
+        <div class="table-scroll" id="stats"></div>
+      </section>
+
+      <!-- Sección 5: Movilidad geoquímica de metales -->
+      <section class="block" aria-labelledby="heading-metals">
+        <div class="block-head">
+          <h2 id="heading-metals">Movilidad esperada de los metales al día 56</h2>
+          <span class="caption">Según el pH final (tabla 31)</span>
+        </div>
+        <div class="table-scroll" id="metals"></div>
+        <p class="note">Tendencias químicas generales en función del pH: precipitación de Cu y Zn por encima de pH 7, estabilidad de la jarosita y de los oxihidróxidos de Fe y adsorción del As(V). No incluye el efecto de la materia orgánica del compost ni sustituye el ensayo SPLP (EPA 1312).</p>
+      </section>
+
+      <!-- Sección 6: Composición y Factibilidad -->
+      <section class="block" aria-labelledby="heading-feas">
+        <div class="block-head"><h2 id="heading-feas">Composición de las unidades y verificación de factibilidad</h2></div>
+        <div class="table-scroll" id="comp-table"></div>
+        <div class="table-scroll" id="feas"></div>
+      </section>
+
+      <!-- Acciones secundarias y descarga -->
+      <div class="actions">
+        <button class="btn-primary" id="csv" type="button" aria-label="Copiar datos simulados al portapapeles en formato de hoja de cálculo">Copiar datos simulados (formato de la hoja de registro)</button>
+        <span class="toast" id="toast" role="status" aria-live="polite"></span>
+      </div>
+      <p class="note">Población viable: modelo 2 de la sección 3.5.6 (ecuaciones 19 y 20), con capacidad máxima de 10⁸ células/g y acidificación biológica. pH y CE: modelo empírico ajustado a los valores esperados de las tablas 29 y 30. Resultados de simulación con carácter referencial, sujetos a validación experimental (sección 4.7).</p>
+    </div>
+
+    <!-- Descripción Metodológica del Modelo (Fila 2 a ancho completo) -->
+    <article class="method" id="method-title" aria-labelledby="method-title-h2">
+      <h2 id="method-title-h2">Descripción del modelo de simulación</h2>
+      <div class="method-cols">
+        <div>
+          <h3>1. Objetivo</h3>
+          <p>El simulador tiene por objetivo anticipar el comportamiento de las nueve unidades experimentales durante los 56 días de incubación, estimar la potencia estadística del diseño para demostrar el efecto del compost y el del microorganismo, y precisar las condiciones en que se cumpliría cada componente de la hipótesis. Amplía la simulación de la sección 3.5.6 y sustenta el análisis del capítulo IV (secciones 4.4 y 4.6).</p>
+          <h3>2. Diseño experimental simulado</h3>
+          <p>Diseño completamente aleatorizado de un factor con tres niveles y tres réplicas (tabla 18): T0, 500 g de relave con agua destilada; T1, 500 g de relave con 50 g de compost sin inocular y medio 9K estéril; T2, 500 g de relave con 50 g de compost inoculado. Las unidades se disponen según la distribución aleatoria de la tabla 19 y se muestrean los días 0, 7, 14, 28, 42 y 56.</p>
+        </div>
+        <div>
+          <h3>3. Escenarios</h3>
+          <p><b>Escenario experimental:</b> relave con el pH medido (7,99) y condiciones de la metodología. <b>Escenario con acondicionamiento ácido:</b> los tres tratamientos y el compost se llevan por igual a un pH dentro del rango de crecimiento de la especie y se incuban a 28 °C. <b>Análisis de escenarios:</b> evaluación sistemática de siete escenarios y del espacio pH–mortalidad frente a los criterios de cumplimiento de los objetivos.</p>
+        </div>
+      </div>
+      <div>
+        <h3>4. Modelos y ecuaciones</h3>
+        <div class="table-scroll"><table>
+          <tr><th>Componente</th><th>Formulación</th><th>Fuente</th></tr>
+          <tr><td>Factor de pH</td><td>γ(pH) = A / [A − (pH − pH<sub>ópt</sub>)²]; A = (pH − pH<sub>mín</sub>)(pH − pH<sub>máx</sub>), con pH<sub>mín</sub> = 1,3, pH<sub>ópt</sub> = 2,5 y pH<sub>máx</sub> = 4,5 (ecuación 19)</td><td>Rosso et al. (1995)</td></tr>
+          <tr><td>Factor de temperatura</td><td>Modelo de temperatura cardinal con T<sub>mín</sub> = 10 °C, T<sub>ópt</sub> = 32 °C y T<sub>máx</sub> = 37 °C</td><td>Rosso et al. (1993)</td></tr>
+          <tr><td>Población viable</td><td>dN/dt = [μ<sub>ópt</sub> · f · γ(pH) · γ(T) · (1 − N/N<sub>máx</sub>) − k<sub>d</sub>(pH)] · N (ecuación 20, con capacidad máxima N<sub>máx</sub> = 10⁸ células/g)</td><td>Sección 3.5.6</td></tr>
+          <tr><td>Acidificación biológica</td><td>dpH<sub>bio</sub>/dt = −α · γ(pH) · γ(T) · N/(N + 10⁶); dCE<sub>bio</sub>/dt = ε · γ(pH) · γ(T) · N/(N + 10⁶)</td><td>Supuesto</td></tr>
+          <tr><td>pH de la mezcla</td><td>pH<sub>0</sub> = pH<sub>relave</sub> + w · (pH<sub>compost</sub> − pH<sub>relave</sub>), con w = 1,282x/(1 + 1,282x) y x = masa de compost/masa de relave; descenso posterior de 0,2 unidades por mineralización</td><td>Ajustado a la tabla 29</td></tr>
+          <tr><td>Conductividad eléctrica</td><td>Aporte de sales del compost proporcional a su fracción másica, mineralización gradual y disolución de yeso del relave (≈ 40 µS/cm en 56 días)</td><td>Ajustado a la tabla 30</td></tr>
+          <tr><td>Análisis estadístico</td><td>ANOVA de un factor (ecuación 12), comparación por diferencia mínima significativa (α = 0,05) y potencia estimada con 3 000 repeticiones aleatorias (Monte Carlo)</td><td>Sección 3.4.4</td></tr>
+          <tr><td>Movilidad de metales</td><td>Cu y Zn: baja si pH ≥ 7,0; media entre 5,5 y 7,0; alta si pH &lt; 5,5. Fe: estable si pH ≥ 4,0. As: desorción moderada si pH &gt; 7,5</td><td>Tabla 31</td></tr>
+        </table></div>
+      </div>
+      <div>
+        <h3>5. Parámetros principales</h3>
+        <div class="table-scroll"><table>
+          <tr><th>Parámetro</th><th>Valor</th><th>Fuente o criterio</th></tr>
+          <tr><td>pH del relave</td><td>7,99 ± 0,56</td><td>Medición de las autoras (tabla 23)</td></tr>
+          <tr><td>CE del relave</td><td>≈ 2 200 µS/cm</td><td>Valor esperado (tabla 23)</td></tr>
+          <tr><td>pH / CE del compost base e inoculado</td><td>7,2 / 3,5 mS/cm y 6,8 / 3,8 mS/cm</td><td>Mamani et al. (2026), tabla 26</td></tr>
+          <tr><td>Densidad del cultivo e inóculo</td><td>1,07 × 10⁸ células/mL; 100 mL/kg</td><td>Tabla 33; sección 3.4.2, literal e</td></tr>
+          <tr><td>μ<sub>ópt</sub> · f</td><td>2,4 d⁻¹ × 0,05</td><td>Tabla 32</td></tr>
+          <tr><td>k<sub>d</sub> basal / neutro</td><td>0,02 / 0,50 d⁻¹</td><td>Supuesto (tabla 32)</td></tr>
+          <tr><td>Capacidad amortiguadora del relave</td><td>50 mmol H⁺/kg por unidad de pH</td><td>Supuesto</td></tr>
+          <tr><td>α / ε (acidificación biológica)</td><td>0,03 pH/d; 15 µS/cm/d</td><td>Supuesto</td></tr>
+          <tr><td>Variabilidad entre réplicas</td><td>± 0,05 de pH; 3 % de CE; ± 0,3 log del recuento</td><td>Supuesto</td></tr>
+        </table></div>
+      </div>
+      <div class="method-cols">
+        <div>
+          <h3>6. Limitaciones</h3>
+          <ul>
+            <li>Los parámetros no han sido calibrados con datos propios; los valores supuestos deben reemplazarse por los medidos (sección 4.7).</li>
+            <li>El pH y la conductividad provienen de un modelo empírico ajustado a valores esperados y no de una representación química del relave.</li>
+            <li>La movilidad de los metales se expresa como tendencia en función del pH; las concentraciones se obtendrán con el ensayo SPLP.</li>
+            <li>Por encima de 30 % de compost, los resultados de pH y conductividad son una extrapolación.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>7. Referencias</h3>
+          <p class="ref">Kelly, D. P., &amp; Wood, A. P. (2000). Reclassification of some species of <i>Thiobacillus</i> to the newly designated genera <i>Acidithiobacillus</i> gen. nov., <i>Halothiobacillus</i> gen. nov. and <i>Thermithiobacillus</i> gen. nov. <i>International Journal of Systematic and Evolutionary Microbiology</i>, 50(2), 511–516.</p>
+          <p class="ref">Mamani Calizaya, N. S., Pacompia Quilca, M. E., Mamani Vilca, M. K., &amp; Dávila Morales, Y. M. (2026). <i>Desarrollo de un compost biofuncional inoculado con microorganismos extremófilos para la rehabilitación sostenible de relaves mineros</i>. Universidad Nacional de San Agustín de Arequipa.</p>
+          <p class="ref">Rosso, L., Lobry, J. R., &amp; Flandrois, J. P. (1993). An unexpected correlation between cardinal temperatures of microbial growth highlighted by a new model. <i>Journal of Theoretical Biology</i>, 162(4), 447–463.</p>
+          <p class="ref">Rosso, L., Lobry, J. R., Bajard, S., &amp; Flandrois, J. P. (1995). Convenient model to describe the combined effects of temperature and pH on microbial growth. <i>Applied and Environmental Microbiology</i>, 61(2), 610–616.</p>
+          <p class="ref">United States Environmental Protection Agency. (1994). <i>Method 1312: Synthetic Precipitation Leaching Procedure (SPLP)</i>.</p>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ===================== Pestaña 3: Vista de Análisis de Escenarios ===================== -->
+  <section class="view view-scenarios" id="v-sit" hidden aria-label="Análisis comparativo de escenarios">
+    <div class="scenarios">
+      <p class="banner"><b>Análisis de escenarios.</b> Cada escenario se construye con los datos de la investigación (pH medido de 7,99, propiedades del compost de la tabla 26, diseño de la tabla 18 y modelo 2 de la sección 3.5.6) y se evalúa frente a los componentes de la hipótesis. Un objetivo se considera cumplido cuando el efecto correspondiente sería estadísticamente demostrable con el diseño, y no solo cuando el valor simulado cambia. Corresponde a las tablas 38 y 39 y a las figuras 38 y 39 de la tesis.</p>
+
+      <section class="block" aria-labelledby="heading-crit">
+        <div class="block-head"><h2 id="heading-crit">Criterios de evaluación de los objetivos</h2></div>
+        <div class="table-scroll"><table class="data">
+          <tr><th>Criterio</th><th>Condición de cumplimiento</th></tr>
+          <tr><td><b>1. Efecto del compost</b></td><td>La diferencia de pH o de CE entre T1 y T0 al día 56 alcanza una potencia estadística igual o mayor que 80 %.</td></tr>
+          <tr><td><b>2. Viabilidad del microorganismo</b></td><td>La población de T2 al día 56 es igual o mayor que 10³ células/g (límite de detección).</td></tr>
+          <tr><td><b>3. Efecto del microorganismo</b></td><td>La diferencia entre T2 y T1 alcanza una potencia igual o mayor que 80 % y al menos la mitad de ella se atribuye a la actividad bacteriana, y no al pH o a las sales del compost inoculado.</td></tr>
+          <tr><td><b>4. Movilidad de los metales</b></td><td>El pH final de T2 es igual o mayor que 5,5, de modo que el Cu y el Zn no pasan a movilidad alta.</td></tr>
+          <tr><td><b>5. Disponibilidad de material</b></td><td>El relave requerido no supera los 5 kg disponibles (sección 3.3).</td></tr>
+        </table></div>
+      </section>
+
+      <section class="block" aria-labelledby="heading-sit-table">
+        <div class="block-head">
+          <h2 id="heading-sit-table">Escenarios evaluados</h2>
+          <span class="caption">Tabla 38</span>
+        </div>
+        <div class="table-scroll" id="sit-table"></div>
+        <p class="note">La opción «Analizar» carga el escenario en la pestaña correspondiente para su revisión detallada. Los escenarios con acondicionamiento ácido emplean una capacidad amortiguadora de 50 mmol H⁺/kg por unidad de pH y una acidificación biológica de 0,03 unidades de pH por día.</p>
+      </section>
+
+      <section class="block" aria-labelledby="heading-heat">
+        <div class="block-head">
+          <h2 id="heading-heat">Objetivos que se cumplirían según el pH del relave y la resistencia de la cepa</h2>
+          <span class="caption">Figura 38</span>
+        </div>
+        <div class="toolbar">
+          <span>Temperatura de incubación</span>
+          <span class="segmented">
+            <button type="button" data-ht="20" aria-pressed="true" aria-label="Incubación a 20 grados Celsius">20 °C</button>
+            <button type="button" data-ht="28" aria-pressed="false" aria-label="Incubación a 28 grados Celsius">28 °C</button>
+          </span>
+          <span>Diseño de nueve unidades experimentales (tres réplicas de 500 g).</span>
+        </div>
+        <div class="heat-layout">
+          <canvas id="heat" aria-label="Mapa de calor de objetivos cumplidos"></canvas>
+          <div class="heat-legend" id="hleg"></div>
+        </div>
+        <p class="note">Eje horizontal: pH del relave durante el ensayo (7,99 corresponde al valor medido; los valores inferiores suponen el acondicionamiento de los tres tratamientos y del compost al mismo pH). Eje vertical: tasa de mortalidad a pH neutro (0,50 d⁻¹ corresponde al caso base de la tabla 32). El círculo indica la condición experimental.</p>
+      </section>
+
+      <section class="block" aria-labelledby="heading-rn">
+        <div class="block-head">
+          <h2 id="heading-rn">Comportamiento del microorganismo dentro de su rango de pH</h2>
+          <span class="caption">Tabla 39 y figura 39</span>
+        </div>
+        <div class="toolbar">
+          <span>Sistema completo (relave y compost) acondicionado a cada pH. Temperatura de incubación</span>
+          <span class="segmented">
+            <button type="button" data-rt="28" aria-pressed="true" aria-label="Rango de pH a 28 grados Celsius">28 °C</button>
+            <button type="button" data-rt="20" aria-pressed="false" aria-label="Rango de pH a 20 grados Celsius">20 °C</button>
+          </span>
+        </div>
+        <div class="two-cols">
+          <section class="block"><div class="block-head"><h3>Población viable en T2 (células/g)</h3></div><canvas class="plot" id="c-rn" aria-label="Población viable de T2 en función del pH"></canvas><div class="legend" id="l-rn"></div></section>
+          <section class="block"><div class="block-head"><h3>Evolución del pH de T2</h3></div><canvas class="plot" id="c-rph" aria-label="Evolución de pH de T2"></canvas><div class="legend" id="l-rph"></div></section>
+        </div>
+        <div class="table-scroll" id="range-table"></div>
+        <p class="note">Ácido expresado como H₂SO₄ 1 M por recipiente de 500 g, con una capacidad amortiguadora supuesta de 50 mmol H⁺/kg por unidad de pH. Se asume que la bacteria activa reduce el pH en 0,03 unidades por día y aumenta la CE en 15 µS/cm por día.</p>
+      </section>
+
+      <div class="insight" id="sit-x" role="region" aria-label="Síntesis del análisis de escenarios">
+        <h3>Síntesis del análisis de escenarios</h3>
+        <div class="xb"></div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- ===================== Pie de página ===================== -->
+  <footer class="footer" role="contentinfo">
+    <div class="wrap">
+      Simulador Calaverita-Cu · Simulación biofísica y estadística de apoyo a la tesis: «Aplicación de compost inoculado con <i>Acidithiobacillus ferrooxidans</i> para minimizar la contaminación ambiental minera en Calaverita-Cu, Arequipa». Universidad Nacional de San Agustín de Arequipa (UNSA).
+    </div>
+  </footer>
+
+</div><!-- /.app-window -->
+
+<!-- ===================== Modal de Datos Personalizados (Opción B) ===================== -->
+<div class="modal-overlay" id="modal-data-overlay" hidden aria-modal="true" role="dialog" aria-labelledby="modal-data-title">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <div class="modal-badge-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div>
+          <h2 id="modal-data-title">Ficha Técnica: Datos del Ensayo</h2>
+          <p class="modal-subtitle">Ingresa directamente tus mediciones numéricas de laboratorio o selecciona una plantilla predefinida.</p>
+        </div>
+      </div>
+      <button class="modal-close" id="btn-modal-close" type="button" aria-label="Cerrar modal">&times;</button>
+    </div>
+
+    <form class="modal-body" id="form-custom-data" onsubmit="return false;">
+      <!-- Plantillas / Presets rápidos -->
+      <div class="presets-bar" role="toolbar" aria-label="Plantillas predefinidas">
+        <span class="presets-label">Plantillas rápidas:</span>
+        <button type="button" class="btn-preset active" data-preset="calaverita">Tesis Calaverita-Cu (pH 7,99)</button>
+        <button type="button" class="btn-preset" data-preset="acido">Relave Ácido Acondicionado (pH 3,2)</button>
+        <button type="button" class="btn-preset" data-preset="neutro">Relave Neutro / Suave (pH 6,8)</button>
+      </div>
+
+      <div class="modal-sections-grid">
+        <!-- 1. Relave Minero -->
+        <div class="modal-section-card">
+          <div class="modal-section-head">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <span>1. Relave Minero</span>
+          </div>
+          <div class="modal-fields-list">
+            <div class="modal-field">
+              <label for="m-phr"><span>pH inicial del relave</span><span class="modal-field-note">Medido, tabla 23</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-phr" step="0.01" min="2" max="10" value="7.99" required>
+                <span class="modal-input-unit">pH</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-cer"><span>Conductividad Eléctrica (CE)</span><span class="modal-field-note">Inicial</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-cer" step="10" min="100" max="6000" value="2200" required>
+                <span class="modal-input-unit">µS/cm</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-acid"><span>Dosis de ácido acondicionador</span><span class="modal-field-note">H₂SO₄</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-acid" step="1" min="0" max="500" value="0">
+                <span class="modal-input-unit">mmol H⁺/kg</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-beta"><span>Capacidad amortiguadora (β)</span><span class="modal-field-note">Supuesta</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-beta" step="5" min="5" max="300" value="50">
+                <span class="modal-input-unit">mmol/(kg·pH)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Propiedades del Compost -->
+        <div class="modal-section-card">
+          <div class="modal-section-head">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <span>2. Enmienda Orgánica (Compost)</span>
+          </div>
+          <div class="modal-fields-list">
+            <div class="modal-field">
+              <label for="m-phc1"><span>pH compost no inoculado (T1)</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-phc1" step="0.05" min="3" max="9" value="7.20" required>
+                <span class="modal-input-unit">pH</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-phc2"><span>pH compost inoculado (T2)</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-phc2" step="0.05" min="3" max="9" value="6.80" required>
+                <span class="modal-input-unit">pH</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-cec1"><span>CE compost T1</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-cec1" step="0.1" min="0.5" max="15" value="3.5" required>
+                <span class="modal-input-unit">mS/cm</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-cec2"><span>CE compost T2</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-cec2" step="0.1" min="0.5" max="15" value="3.8" required>
+                <span class="modal-input-unit">mS/cm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Microorganismo (Acidithiobacillus ferrooxidans) -->
+        <div class="modal-section-card">
+          <div class="modal-section-head">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <span>3. Bacteria Viva (T2: A. ferrooxidans)</span>
+          </div>
+          <div class="modal-fields-list">
+            <div class="modal-field">
+              <label for="m-xc"><span>Densidad inóculo (log₁₀)</span><span class="modal-field-note">8.03 ≈ 1.1×10⁸</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-xc" step="0.01" min="6" max="10" value="8.03" required>
+                <span class="modal-input-unit">log cél/mL</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-kd"><span>Mortalidad a pH ≥ 6,5 (kd)</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-kd" step="0.05" min="0.01" max="2" value="0.50" required>
+                <span class="modal-input-unit">d⁻¹</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-tt"><span>Temperatura de incubación</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-tt" step="0.5" min="10" max="38" value="20" required>
+                <span class="modal-input-unit">°C</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-alpha"><span>Acidificación biológica diaria (α)</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-alpha" step="0.005" min="0" max="0.15" value="0.030" required>
+                <span class="modal-input-unit">pH/d</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-eps"><span>Liberación de sales biológica (ε)</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-eps" step="1" min="0" max="100" value="15" required>
+                <span class="modal-input-unit">µS/cm/d</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Diseño Experimental y Proporciones -->
+        <div class="modal-section-card">
+          <div class="modal-section-head">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-3 3"/></svg>
+            <span>4. Diseño y Masa de Material</span>
+          </div>
+          <div class="modal-fields-list">
+            <div class="modal-field">
+              <label for="m-comp"><span>Dosis de compost respecto al relave</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-comp" step="1" min="1" max="100" value="10" required>
+                <span class="modal-input-unit">%</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-mrec"><span>Relave por unidad experimental</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-mrec" step="25" min="100" max="1000" value="500" required>
+                <span class="modal-input-unit">g</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-dose"><span>Dosis de cultivo en compost (T2)</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-dose" step="10" min="20" max="500" value="100" required>
+                <span class="modal-input-unit">mL/kg</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-disp"><span>Relave disponible total</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-disp" step="0.5" min="1" max="30" value="5" required>
+                <span class="modal-input-unit">kg</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-compd"><span>Compost disponible total</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-compd" step="0.5" min="1" max="30" value="10" required>
+                <span class="modal-input-unit">kg</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Variabilidad Experimental de Réplicas -->
+        <div class="modal-section-card" style="grid-column: 1 / -1;">
+          <div class="modal-section-head">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <span>5. Variabilidad Experimental entre Réplicas (Estadística)</span>
+          </div>
+          <div class="modal-fields-list" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            <div class="modal-field">
+              <label for="m-sdph"><span>Desv. Est. de pH entre unidades</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-sdph" step="0.01" min="0.01" max="0.6" value="0.05" required>
+                <span class="modal-input-unit">DE pH</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-cvce"><span>Coef. Variación CE entre unidades</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-cvce" step="0.5" min="0.5" max="15" value="3.0" required>
+                <span class="modal-input-unit">% CV</span>
+              </div>
+            </div>
+            <div class="modal-field">
+              <label for="m-sdn"><span>Desv. Est. log₁₀ población T2</span></label>
+              <div class="modal-input-wrap">
+                <input type="number" id="m-sdn" step="0.01" min="0.01" max="0.5" value="0.15" required>
+                <span class="modal-input-unit">DE log</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-reset" id="btn-modal-reset">Restablecer valores de la Tesis UNSA</button>
+        <button type="button" class="btn-modal-cancel" id="btn-modal-cancel">Cancelar</button>
+        <button type="submit" class="btn-modal-submit" id="btn-modal-apply">
+          <span class="btn-circle-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </span>
+          <span>Aplicar datos al simulador</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Scripts base (en orden de dependencia) -->
+<script src="js/utils.js"></script>
+<script src="js/config.js"></script>
+<script src="js/model.js"></script>
+<script src="js/stats.js"></script>
+<script src="js/state.js"></script>
+<script src="js/evaluation.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/bench.js"></script>
+<script src="js/timeline.js"></script>
+<script src="js/simulation-view.js"></script>
+<script src="js/scenarios-view.js"></script>
+<script src="js/main.js"></script>
+
+<!-- Script interactivo del Escenario Microscópico y widgets adicionales -->
+<script>
+(function() {
+  "use strict";
+
+  // 1. Enlace de botones del Hero y TopBar
+  const btnTopStart = document.getElementById("btn-top-start");
+  const btnHeroEnter = document.getElementById("hero-enter");
+  const playBtn = document.getElementById("play");
+  const btnFullscreen = document.getElementById("btn-fullscreen");
+
+  if (btnFullscreen) {
+    btnFullscreen.addEventListener("click", () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+  }
+
+  if (btnTopStart && playBtn) {
+    btnTopStart.addEventListener("click", () => {
+      playBtn.click();
+      const simSec = document.getElementById("v-sim");
+      if (simSec) simSec.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  if (btnHeroEnter) {
+    btnHeroEnter.addEventListener("click", () => {
+      const simSec = document.getElementById("v-sim");
+      if (simSec) simSec.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  // --- Modal de Datos Personalizados (Opción B) ---
+  const MODAL_MAP = {
+    phr: "m-phr",
+    cer: "m-cer",
+    acid: "m-acid",
+    beta: "m-beta",
+    phc1: "m-phc1",
+    phc2: "m-phc2",
+    cec1: "m-cec1",
+    cec2: "m-cec2",
+    xc: "m-xc",
+    kd: "m-kd",
+    tt: "m-tt",
+    alpha: "m-alpha",
+    eps: "m-eps",
+    comp: "m-comp",
+    mrec: "m-mrec",
+    dose: "m-dose",
+    disp: "m-disp",
+    compd: "m-compd",
+    sdph: "m-sdph",
+    cvce: "m-cvce",
+    sdn: "m-sdn"
+  };
+
+  const PRESETS = {
+    calaverita: {
+      phr: "7.99", cer: "2200", acid: "0", beta: "50",
+      phc1: "7.20", phc2: "6.80", cec1: "3.5", cec2: "3.8",
+      xc: "8.03", kd: "0.50", tt: "20", alpha: "0.030", eps: "15",
+      comp: "10", mrec: "500", dose: "100", disp: "5", compd: "10",
+      sdph: "0.05", cvce: "3.0", sdn: "0.15"
+    },
+    acido: {
+      phr: "3.20", cer: "2800", acid: "240", beta: "50",
+      phc1: "4.00", phc2: "4.00", cec1: "4.0", cec2: "4.5",
+      xc: "8.03", kd: "0.10", tt: "28", alpha: "0.030", eps: "15",
+      comp: "10", mrec: "500", dose: "100", disp: "5", compd: "10",
+      sdph: "0.05", cvce: "3.0", sdn: "0.15"
+    },
+    neutro: {
+      phr: "6.80", cer: "1800", acid: "20", beta: "50",
+      phc1: "7.00", phc2: "6.50", cec1: "3.0", cec2: "3.2",
+      xc: "8.03", kd: "0.35", tt: "22", alpha: "0.030", eps: "15",
+      comp: "15", mrec: "500", dose: "120", disp: "5", compd: "10",
+      sdph: "0.05", cvce: "3.0", sdn: "0.15"
+    }
+  };
+
+  const modalOverlay = document.getElementById("modal-data-overlay");
+  const btnTopModal = document.getElementById("btn-top-modal");
+  const heroCustomData = document.getElementById("hero-custom-data");
+  const btnSidebarModal = document.getElementById("btn-sidebar-modal");
+  const btnModalClose = document.getElementById("btn-modal-close");
+  const btnModalCancel = document.getElementById("btn-modal-cancel");
+  const btnModalReset = document.getElementById("btn-modal-reset");
+  const formCustomData = document.getElementById("form-custom-data");
+  const presetBtns = document.querySelectorAll(".btn-preset[data-preset]");
+
+  function populateModalFromSim() {
+    Object.entries(MODAL_MAP).forEach(([simId, modalId]) => {
+      const simInput = document.getElementById(simId);
+      const modalInput = document.getElementById(modalId);
+      if (simInput && modalInput) {
+        modalInput.value = simInput.value;
+      }
+    });
+  }
+
+  function applyPresetToModal(presetKey) {
+    const data = PRESETS[presetKey];
+    if (!data) return;
+    Object.entries(data).forEach(([key, val]) => {
+      const modalId = MODAL_MAP[key];
+      const modalInput = document.getElementById(modalId);
+      if (modalInput) modalInput.value = val;
+    });
+    presetBtns.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.preset === presetKey);
+    });
+  }
+
+  function openCustomDataModal() {
+    populateModalFromSim();
+    if (modalOverlay) {
+      modalOverlay.removeAttribute("hidden");
+      document.body.style.overflow = "hidden";
+      const firstInput = document.getElementById("m-phr");
+      if (firstInput) setTimeout(() => firstInput.focus(), 50);
+    }
+  }
+
+  function closeCustomDataModal() {
+    if (modalOverlay) {
+      modalOverlay.setAttribute("hidden", "");
+      document.body.style.overflow = "";
+    }
+  }
+
+  if (btnTopModal) btnTopModal.addEventListener("click", openCustomDataModal);
+  if (heroCustomData) heroCustomData.addEventListener("click", openCustomDataModal);
+  if (btnSidebarModal) btnSidebarModal.addEventListener("click", openCustomDataModal);
+  if (btnModalClose) btnModalClose.addEventListener("click", closeCustomDataModal);
+  if (btnModalCancel) btnModalCancel.addEventListener("click", closeCustomDataModal);
+
+  if (modalOverlay) {
+    modalOverlay.addEventListener("click", (e) => {
+      if (e.target === modalOverlay) closeCustomDataModal();
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modalOverlay && !modalOverlay.hasAttribute("hidden")) {
+      closeCustomDataModal();
+    }
+  });
+
+  presetBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      applyPresetToModal(btn.dataset.preset);
+    });
+  });
+
+  if (btnModalReset) {
+    btnModalReset.addEventListener("click", () => {
+      applyPresetToModal("calaverita");
+    });
+  }
+
+  if (formCustomData) {
+    formCustomData.addEventListener("submit", (e) => {
+      e.preventDefault();
+      Object.entries(MODAL_MAP).forEach(([simId, modalId]) => {
+        const simInput = document.getElementById(simId);
+        const modalInput = document.getElementById(modalId);
+        if (simInput && modalInput) {
+          simInput.value = modalInput.value;
+          simInput.dispatchEvent(new Event("input", { bubbles: true }));
+          simInput.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+      });
+
+      if (typeof saveCurrentTab === "function") saveCurrentTab();
+      if (typeof state !== "undefined") state.draft = false;
+      if (typeof updateParamOutputs === "function") updateParamOutputs();
+      if (typeof recalc === "function") recalc();
+
+      closeCustomDataModal();
+
+      const toastEl = document.getElementById("toast");
+      if (toastEl) {
+        toastEl.textContent = "¡Datos personalizados aplicados! Simulación recalculada con éxito.";
+        setTimeout(() => { if (toastEl.textContent.includes("Datos personalizados")) toastEl.textContent = ""; }, 4500);
+      }
+
+      const simSec = document.getElementById("v-sim");
+      if (simSec) simSec.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  // 2. Selector de días en la cabecera de resultados
+  const dayPills = document.querySelectorAll("#day-pills .day-pill-btn");
+  dayPills.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const d = parseFloat(btn.dataset.d);
+      if (typeof jumpToDay === "function") jumpToDay(d);
+      else {
+        const slider = document.getElementById("day");
+        if (slider) { slider.value = d; slider.dispatchEvent(new Event("input")); }
+      }
+    });
+  });
+
+  // 3. Sincronización del día en widgets del Hero y título de Resultados
+  function syncDayWidgets() {
+    if (typeof state !== "undefined") {
+      const d = state.day;
+      const resTitle = document.getElementById("res-day-title");
+      if (resTitle) resTitle.textContent = "día " + Math.round(d);
+
+      const heroDay = document.getElementById("hero-day-stat");
+      if (heroDay) heroDay.textContent = "Día " + Math.round(d);
+
+      const pct = Math.min(100, Math.round((d / 56) * 100));
+      const ring = document.getElementById("hero-progress-ring");
+      if (ring) ring.style.strokeDasharray = pct + ", 100";
+      const ringVal = document.getElementById("hero-ring-val");
+      if (ringVal) ringVal.textContent = pct + "%";
+
+      dayPills.forEach(btn => {
+        btn.classList.toggle("active", Math.abs(parseFloat(btn.dataset.d) - d) < 3.5);
+      });
+    }
+    requestAnimationFrame(syncDayWidgets);
+  }
+  requestAnimationFrame(syncDayWidgets);
+
+  // 4. Ilustración Microscópica Animada en Hero Canvas
+  const canvas = document.getElementById("hero-canvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+  }
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+
+  // Partículas de relave (polígonos broncíneos)
+  const particles = Array.from({ length: 14 }, () => ({
+    x: Math.random() * 400,
+    y: Math.random() * 300,
+    r: 12 + Math.random() * 22,
+    vx: (Math.random() - 0.5) * 0.2,
+    vy: (Math.random() - 0.5) * 0.2,
+    rot: Math.random() * 6.28,
+    vrot: (Math.random() - 0.5) * 0.005,
+    pts: Array.from({ length: 6 }, () => 0.7 + Math.random() * 0.6)
+  }));
+
+  // Bacilos de A. ferrooxidans (bastoncillos cian / azul brillante)
+  const bacilli = Array.from({ length: 26 }, () => ({
+    x: Math.random() * 400,
+    y: Math.random() * 300,
+    len: 18 + Math.random() * 16,
+    width: 6 + Math.random() * 3,
+    angle: Math.random() * 6.28,
+    vangle: (Math.random() - 0.5) * 0.015,
+    vx: (Math.random() - 0.5) * 0.45,
+    vy: (Math.random() - 0.5) * 0.45,
+    glow: Math.random()
+  }));
+
+  function renderHeroMicroscope() {
+    const rect = canvas.getBoundingClientRect();
+    const W = rect.width, H = rect.height;
+    if (!W || !H) { requestAnimationFrame(renderHeroMicroscope); return; }
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Fondo con brillo radial suave
+    const bgRad = ctx.createRadialGradient(W * 0.65, H * 0.45, 10, W * 0.65, H * 0.45, Math.max(W, H) * 0.75);
+    bgRad.addColorStop(0, "rgba(18, 58, 107, 0.45)");
+    bgRad.addColorStop(0.5, "rgba(10, 30, 61, 0.3)");
+    bgRad.addColorStop(1, "rgba(5, 15, 34, 0)");
+    ctx.fillStyle = bgRad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Dibujar partículas de relave
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.rot += p.vrot;
+      if (p.x < -40) p.x = W + 40; if (p.x > W + 40) p.x = -40;
+      if (p.y < -40) p.y = H + 40; if (p.y > H + 40) p.y = -40;
+
+      ctx.save();
+      ctx.translate((p.x / 400) * W, (p.y / 300) * H);
+      ctx.rotate(p.rot);
+      ctx.beginPath();
+      const n = p.pts.length;
+      for (let i = 0; i < n; i++) {
+        const theta = (i / n) * Math.PI * 2;
+        const rad = p.r * p.pts[i];
+        const px = Math.cos(theta) * rad;
+        const py = Math.sin(theta) * rad;
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      const g = ctx.createLinearGradient(-p.r, -p.r, p.r, p.r);
+      g.addColorStop(0, "#C9864E");
+      g.addColorStop(0.5, "#7A4524");
+      g.addColorStop(1, "#2A160C");
+      ctx.fillStyle = g;
+      ctx.fill();
+      ctx.strokeStyle = "rgba(201, 134, 78, 0.35)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.restore();
+    });
+
+    // Dibujar bacilos de Acidithiobacillus ferrooxidans
+    bacilli.forEach(b => {
+      b.x += b.vx; b.y += b.vy; b.angle += b.vangle;
+      if (b.x < -30) b.x = W + 30; if (b.x > W + 30) b.x = -30;
+      if (b.y < -30) b.y = H + 30; if (b.y > H + 30) b.y = -30;
+
+      const bx = (b.x / 400) * W;
+      const by = (b.y / 300) * H;
+
+      ctx.save();
+      ctx.translate(bx, by);
+      ctx.rotate(b.angle);
+
+      // Brillo exterior cian
+      ctx.shadowColor = "#5ED8F0";
+      ctx.shadowBlur = 10;
+
+      // Forma cápsula / bacilo
+      const hw = b.len / 2, r = b.width / 2;
+      ctx.beginPath();
+      ctx.moveTo(-hw + r, -r);
+      ctx.lineTo(hw - r, -r);
+      ctx.arc(hw - r, 0, r, -Math.PI / 2, Math.PI / 2);
+      ctx.lineTo(-hw + r, r);
+      ctx.arc(-hw + r, 0, r, Math.PI / 2, -Math.PI / 2);
+      ctx.closePath();
+
+      const bg = ctx.createLinearGradient(-hw, -r, hw, r);
+      bg.addColorStop(0, "#0E3B66");
+      bg.addColorStop(0.35, "#7FE7FF");
+      bg.addColorStop(0.7, "#BFF6FF");
+      bg.addColorStop(1, "#2EC4B6");
+      ctx.fillStyle = bg;
+      ctx.fill();
+
+      // Centro brillante
+      ctx.shadowBlur = 0;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, hw * 0.6, r * 0.45, 0, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
+      ctx.fill();
+
+      ctx.restore();
+    });
+
+    requestAnimationFrame(renderHeroMicroscope);
+  }
+  requestAnimationFrame(renderHeroMicroscope);
+
+})();
+</script>
+
+</body>
+</html>
