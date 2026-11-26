@@ -66,7 +66,7 @@ function normalCdf(x) {
   return x > 0 ? 1 - q : q;
 }
 
-// ---------- ANOVA de un factor (ecuación 12) ----------
+// ---------- ANOVA de un factor (ecuación 13) ----------
 function oneWayAnova(groups) {
   const all = groups.flat(), grandMean = mean(all), k = groups.length, n = all.length;
   const ssBetween = groups.reduce((s, g) => s + g.length * (mean(g) - grandMean) ** 2, 0);

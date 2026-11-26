@@ -120,7 +120,7 @@ function onReset() {
 function onApplyObservedDispersion() {
   $("sdph").value = 0.56;
   state.draft = false; recalc();
-  renderInterpretation("Se aplicó la desviación observada en la medición inicial del relave (DE = 0,56).");
+  renderInterpretation("Se aplicó la dispersión de campo en la medición inicial del relave (DE = 0,56).");
 }
 
 function onNewRealization() {

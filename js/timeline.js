@@ -100,9 +100,9 @@ function microbeStage(day) {
   if (day < 1) return { rate, title: "Etapa inicial: mezcla y estabilización",
     text: `Al mezclar el compost inoculado con el relave, la población de T2 se diluye a ${fmtSci(N0)} células/g. El pH de la mezcla (${fmt(phT2, 2)}) ${phT2 > GROWTH_PH_MAX ? "se encuentra fuera" : "se encuentra dentro"} del rango de crecimiento de la especie (1,3–4,5).` };
   if (lossDay !== null && day < lossDay) return { rate, title: "Declive del inóculo",
-    text: `La población de T2 desciende de ${fmtSci(N0)} a ${fmtSci(N)} células/g, porque a pH ${fmt(phT2, 2)} el microorganismo no obtiene energía y su tasa neta es de ${fmt(rate, 2)} d⁻¹. Bajará del límite de detección hacia el día ${fmt(lossDay, 1)}.` };
+    text: `La población de T2 desciende de ${fmtSci(N0)} a ${fmtSci(N)} células/g, porque a pH ${fmt(phT2, 2)} el microorganismo no obtiene energía y su tasa neta es de ${fmt(rate, 2)} d⁻¹. Bajará del límite de detección hacia el día ${Math.round(lossDay)}.` };
   if (lossDay !== null) return { rate, title: "Inóculo no detectable",
-    text: `Desde el día ${fmt(lossDay, 1)} la población de T2 se encuentra por debajo del límite de detección (10³ células/g). A partir de esta etapa, T2 se comporta prácticamente igual que T1.` };
+    text: `Desde el día ${Math.round(lossDay)} la población de T2 se encuentra por debajo del límite de detección (10³ células/g). A partir de esta etapa, T2 se comporta prácticamente igual que T1.` };
   if (rate > 0.005) return { rate, title: "Crecimiento y oxidación activa",
     text: `La población de T2 aumenta a ${fmtSci(N)} células/g (tasa neta de ${fmtSigned(rate, 3)} d⁻¹). Al oxidar el hierro y los sulfuros del relave, el microorganismo produce ácido: el pH de T2 desciende más rápido que el de T1.` };
   return { rate, title: "Persistencia sin crecimiento",

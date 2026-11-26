@@ -25,7 +25,7 @@
       <div class="top-nav wrap">
         <div class="brand">
           <span class="brand-dot"></span>
-          <span class="brand-name">SIMULADOR pirhkb</span>
+          <span class="brand-name">SIMULADOR TerraNova</span>
         </div>
 
         <nav class="tabs" aria-label="Escenarios">
@@ -39,7 +39,7 @@
               class="tab-num">04</span>Modelo</a>
         </nav>
 
-        <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="top-actions" style="display: flex; align-items: center; gap: 10px;">
           <button class="btn-header-data" id="btn-top-modal" type="button"
             aria-label="Abrir formulario para ingresar mis propios datos">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -63,7 +63,7 @@
             title="Alternar pantalla completa (F11)">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
-              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+              <path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
             </svg>
           </button>
         </div>
@@ -77,7 +77,7 @@
         <div class="hero-content">
           <div class="hero-overline">
             <span class="tag-thesis">SIMULADOR</span>
-            <span>Tesis de apoyo al Capítulo IV · UNSA</span>
+            <span>Simulador de apoyo al Capítulo IV de la tesis · UNSA</span>
           </div>
           <h1>SIMULADOR: Mitigando el relave minero <span class="hero-serif">con compost y bacteria viva</span></h1>
           <p class="hero-desc">Simula cómo responden las nueve unidades experimentales: relave solo (T0), con compost
@@ -142,9 +142,9 @@
         <!-- Ilustración interactiva microscópica (bacilos y relave) -->
         <div class="hero-microscope-stage">
           <div class="micro-tags">
-            <span class="micro-tag"><i class="dot-ph"></i> pH: 7,99</span>
-            <span class="micro-tag"><i class="dot-ce"></i> CE: 2200 µS/cm</span>
-            <span class="micro-tag"><i class="dot-n"></i> Bacterias: 10⁸ /mL</span>
+            <span class="micro-tag"><i class="dot-ph"></i> pH: <span id="hero-tag-ph">7,99</span></span>
+            <span class="micro-tag"><i class="dot-ce"></i> CE: <span id="hero-tag-ce">2200 µS/cm</span></span>
+            <span class="micro-tag"><i class="dot-n"></i> Bacterias: <span id="hero-tag-n">10⁸ /mL</span></span>
           </div>
           <canvas id="hero-canvas"></canvas>
           <div class="micro-info-card">
@@ -152,7 +152,7 @@
               <span>Microscopio · T2</span>
               <span>🔬</span>
             </div>
-            <p>Bacilos sobre partículas de relave a pH 7,99: población en declive.</p>
+            <p id="hero-micro-desc">Bacilos sobre partículas de relave a pH 7,99: población en declive.</p>
           </div>
         </div>
       </div>
@@ -356,7 +356,7 @@
                   aria-label="Desviación estándar del recuento microbiológico">
               </div>
               <button id="disp56" type="button"
-                aria-label="Aplicar la dispersión observada de 0.56 unidades de pH">Aplicar dispersión observada (DE =
+                aria-label="Aplicar la dispersión de campo de 0.56 unidades de pH">Aplicar dispersión de campo (DE =
                 0,56)</button>
             </div>
           </details>
@@ -463,8 +463,23 @@
           <section class="block" aria-labelledby="heading-stats">
             <div class="block-head">
               <h2 id="heading-stats">Análisis estadístico proyectado</h2>
-              <span class="caption">ANOVA de un factor, DCA; ecuación 12</span>
+              <span class="caption">ANOVA de un factor, DCA; ecuación 13: <em>Y</em><sub>ij</sub> = <em>μ</em> + <em>τ</em><sub>i</sub> + <em>ε</em><sub>ij</sub></span>
             </div>
+
+            <!-- Recuadro explicativo ANOVA (Punto 11) -->
+            <div class="stats-anova-desc" style="padding: 14px 18px; margin-bottom: 8px; background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--teal); border-radius: var(--radius-card); font-size: 0.88rem; line-height: 1.55;">
+              <p style="margin: 0 0 8px 0; color: var(--text-ice);"><strong>Análisis estadístico proyectado.</strong> ANOVA de un factor para un diseño completamente aleatorizado (ecuación 13):
+              <em>Y</em><sub>ij</sub> = <em>μ</em> + <em>τ</em><sub>i</sub> + <em>ε</em><sub>ij</sub>,
+              con comparación de medias por LSD (α = 0,05).</p>
+              <p style="margin: 0 0 6px 0; color: var(--text-light); font-size: 0.84rem;">El significado de cada término es:</p>
+              <ul style="margin: 0; padding-left: 20px; color: var(--text-light); font-size: 0.84rem; display: flex; flex-direction: column; gap: 4px;">
+                <li><strong><em>Y</em><sub>ij</sub></strong>: valor observado (pH, CE o concentración lixiviable) en la réplica <em>j</em> del tratamiento <em>i</em>.</li>
+                <li><strong><em>μ</em></strong>: media general del experimento.</li>
+                <li><strong><em>τ</em><sub>i</sub></strong>: efecto del tratamiento <em>i</em> (T0, T1 o T2).</li>
+                <li><strong><em>ε</em><sub>ij</sub></strong>: error experimental aleatorio.</li>
+              </ul>
+            </div>
+
             <div class="days" id="days" aria-label="Selección del día para ANOVA"></div>
             <div class="table-scroll" id="stats"></div>
           </section>
@@ -476,9 +491,7 @@
               <span class="caption">Según el pH final (tabla 31)</span>
             </div>
             <div class="table-scroll" id="metals"></div>
-            <p class="note">Tendencias químicas generales en función del pH: precipitación de Cu y Zn por encima de pH
-              7, estabilidad de la jarosita y de los oxihidróxidos de Fe y adsorción del As(V). No incluye el efecto de
-              la materia orgánica del compost ni sustituye el ensayo SPLP (EPA 1312).</p>
+            <p class="note">Tendencias químicas generales en función del pH: Cu y Zn precipitan por encima de pH 7,5 (tabla 23), estabilidad de la jarosita y de los oxihidróxidos de Fe y adsorción del As(V). No incluye el efecto de la materia orgánica del compost ni sustituye el ensayo SPLP (EPA 1312).</p>
           </section>
 
           <!-- Sección 6: Composición y Factibilidad -->
@@ -577,7 +590,7 @@
                 </tr>
                 <tr>
                   <td>Análisis estadístico</td>
-                  <td>ANOVA de un factor (ecuación 12), comparación por diferencia mínima significativa (α = 0,05) y
+                  <td>ANOVA de un factor (ecuación 13), comparación por diferencia mínima significativa (α = 0,05) y
                     potencia estimada con 3 000 repeticiones aleatorias (Monte Carlo)</td>
                   <td>Sección 3.4.4</td>
                 </tr>
@@ -1324,9 +1337,46 @@
           const ringVal = document.getElementById("hero-ring-val");
           if (ringVal) ringVal.textContent = pct + "%";
 
+          // Item 9: Resaltar el muestreo correspondiente al día que se muestra (ej. en día 5 se resalta Día 0, no Día 7)
+          const samplingDays = [0, 7, 14, 28, 42, 56];
+          let currentSample = 0;
+          for (const sd of samplingDays) {
+            if (d >= sd) currentSample = sd;
+          }
           dayPills.forEach(btn => {
-            btn.classList.toggle("active", Math.abs(parseFloat(btn.dataset.d) - d) < 3.5);
+            btn.classList.toggle("active", parseFloat(btn.dataset.d) === currentSample);
           });
+
+          // Item 10: Portada dinámica (pH, CE y bacterias según escenario y día actual)
+          if (state.sim && state.sim.curves) {
+            const dayIdx = Math.min(56, Math.max(0, Math.round(d)));
+            const curPH = state.sim.curves.ph && state.sim.curves.ph[2] ? state.sim.curves.ph[2][dayIdx] : null;
+            const curCE = state.sim.curves.ce && state.sim.curves.ce[2] ? state.sim.curves.ce[2][dayIdx] : null;
+            const curN = state.sim.curves.N ? state.sim.curves.N[dayIdx] : null;
+
+            const tagPh = document.getElementById("hero-tag-ph");
+            if (tagPh && curPH !== null && curPH !== undefined) tagPh.textContent = typeof fmt === "function" ? fmt(curPH, 2) : curPH.toFixed(2);
+
+            const tagCe = document.getElementById("hero-tag-ce");
+            if (tagCe && curCE !== null && curCE !== undefined) tagCe.textContent = Math.round(curCE) + " µS/cm";
+
+            const tagN = document.getElementById("hero-tag-n");
+            if (tagN && curN !== null && curN !== undefined) {
+              tagN.textContent = curN < 1000 ? "< 10³ /mL" : (typeof fmtSci === "function" ? fmtSci(curN) : curN.toExponential(1)) + " /mL";
+            }
+
+            const desc = document.getElementById("hero-micro-desc");
+            if (desc && curPH !== null && curPH !== undefined) {
+              const phFormatted = typeof fmt === "function" ? fmt(curPH, 2) : curPH.toFixed(2);
+              if (curN < 1000) {
+                desc.textContent = `Bacilos sobre partículas de relave a pH ${phFormatted}: población por debajo del límite de detección.`;
+              } else if (curPH > 6.5) {
+                desc.textContent = `Bacilos sobre partículas de relave a pH ${phFormatted}: población en declive.`;
+              } else {
+                desc.textContent = `Bacilos sobre partículas de relave a pH ${phFormatted}: bacteria activa y viable.`;
+              }
+            }
+          }
         }
         requestAnimationFrame(syncDayWidgets);
       }

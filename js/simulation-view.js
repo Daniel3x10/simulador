@@ -89,7 +89,7 @@ function kpiItems(sim) {
   const items = [
     { label: "pH al día 56 (T0 · T1 · T2)", value: f.finalPH.map(x => fmt(x, 2)).join(" · "),
       status: f.finalPH[2] > GROWTH_PH_MAX ? ["bad", "Fuera del rango de crecimiento"] : ["good", "Dentro del rango de crecimiento"] },
-    { label: "Población viable en T2", value: f.lossDay === null ? fmtSci(f.finalN) + " /g al día 56" : `< 10³ /g desde el día ${fmt(f.lossDay, 1)}`,
+    { label: "Población viable en T2", value: f.lossDay === null ? fmtSci(f.finalN) + " /g al día 56" : `< 10³ /g desde el día ${Math.round(f.lossDay)}`,
       status: f.finalN >= ACTIVE_POPULATION ? ["good", "Activa"] : f.finalN >= DETECTION_LIMIT ? ["warn", "Débil"] : ["bad", "No detectable"] },
     { label: `Efecto del microorganismo (T2 − T1), día ${day}`, value: `${fmtSigned(ph21.expected, 2)} pH · ${fmtSigned(ce21.expected, 0)} µS/cm`,
       status: powerStatus(microbePower), detail: `Potencia: ${fmtPercent(microbePower)}` },
